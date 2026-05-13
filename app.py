@@ -1,6 +1,7 @@
 from uuid import uuid4
 from functools import wraps
 from werkzeug.exceptions import NotFound
+import os
 from todos.utils import (
     delete_list_by_id,
     delete_todo_by_id,
@@ -180,4 +181,7 @@ def update_list(lst, list_id):
     return redirect(url_for('show_list', list_id=list_id))
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5003)
+    if os.environ.get('FLASK_ENV') == 'production':
+        app.run(debug=False)
+    else:
+        app.run(debug=True, port=5003) # Use port 8080 on Cloud9
